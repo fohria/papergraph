@@ -67,12 +67,12 @@ fn insert(opts: Insert) {
         .lines()
         .map(|l| l.expect("failed to read line"))
         .map(|l| serde_json::from_str(&l).expect("failed to parse paper"))
-        .filter(|p: &Paper| p.in_citations.len() >= min_citations)
-        .filter(|p: &Paper| {
-            opts.field_of_study
-                .iter()
-                .any(|fos| p.fields_of_study.contains(fos))
-        });
+        .filter(|p: &Paper| p.in_citations.len() >= min_citations);
+        // .filter(|p: &Paper| {
+        //     opts.field_of_study
+        //         .iter()
+        //         .any(|fos| p.fields_of_study.contains(fos))
+        // });
 
     for chunk in &records.chunks(8192) {
         let mut batch = papergraph::db::utils::RecordBatch::new();
